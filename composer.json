@@ -1,0 +1,19 @@
+{
+    "name": "stackkit/blade-standalone",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Marick van Tuil",
+            "email": "info@marickvantuil.nl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Stackkit\\BladeStandalone\\": "src/"
+        }
+    },
+    "require": {
+        "illuminate/view": "^5.5.17"
+    }
+}
