@@ -25,7 +25,7 @@ class Blade
         $this->factory = new Factory($resolver, new FileViewFinder(new Filesystem(), [$viewsDir]), new Dispatcher());
     }
 
-    function render($view, $variables)
+    function render($view, $variables = [])
     {
         return $this->factory->make($view, $variables)->render();
     }
