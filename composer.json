@@ -1,7 +1,6 @@
 {
     "name": "stackkit/blade-standalone",
     "license": "MIT",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "Marick van Tuil",
