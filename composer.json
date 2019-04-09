@@ -13,6 +13,6 @@
         }
     },
     "require": {
-        "illuminate/view": "^5.7.9"
+        "illuminate/view": "^5.8.9"
     }
 }
