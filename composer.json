@@ -13,6 +13,8 @@
         }
     },
     "require": {
-        "illuminate/view": "^7.5.2"
+        "illuminate/view": "^7.5",
+        "illuminate/events": "^7.5",
+        "illuminate/filesystem": "^7.5"
     }
 }

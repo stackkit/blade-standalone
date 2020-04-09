@@ -16,13 +16,13 @@ class Blade
 {
     private $factory;
 
-    function __construct($viewsDir, $cacheDir)
+    function __construct($pathsToTemplates, $pathToCompiledTemplates)
     {
         $filesystem = new Filesystem;
         $eventDispatcher = new Dispatcher(new Container);
 
         $viewResolver = new EngineResolver;
-        $bladeCompiler = new BladeCompiler($filesystem, $cacheDir);
+        $bladeCompiler = new BladeCompiler($filesystem, $pathToCompiledTemplates);
 
         $viewResolver->register('blade', function () use ($bladeCompiler) {
             return new CompilerEngine($bladeCompiler);
@@ -32,7 +32,7 @@ class Blade
             return new PhpEngine;
         });
 
-        $viewFinder = new FileViewFinder($filesystem, $viewsDir);
+        $viewFinder = new FileViewFinder($filesystem, $pathsToTemplates);
         $this->factory = new Factory($viewResolver, $viewFinder, $eventDispatcher);
     }
 
