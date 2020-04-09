@@ -2,11 +2,13 @@
 
 namespace Stackkit\BladeStandalone;
 
+use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\Engines\EngineResolver;
+use Illuminate\View\Engines\PhpEngine;
 use Illuminate\View\Factory;
 use Illuminate\View\FileViewFinder;
 
@@ -16,13 +18,22 @@ class Blade
 
     function __construct($viewsDir, $cacheDir)
     {
-        $resolver = new EngineResolver;
+        $filesystem = new Filesystem;
+        $eventDispatcher = new Dispatcher(new Container);
 
-        $resolver->register('blade', function () use ($viewsDir, $cacheDir) {
-            return new CompilerEngine(new BladeCompiler(new Filesystem(), $cacheDir));
+        $viewResolver = new EngineResolver;
+        $bladeCompiler = new BladeCompiler($filesystem, $cacheDir);
+
+        $viewResolver->register('blade', function () use ($bladeCompiler) {
+            return new CompilerEngine($bladeCompiler);
         });
 
-        $this->factory = new Factory($resolver, new FileViewFinder(new Filesystem(), [$viewsDir]), new Dispatcher());
+        $viewResolver->register('php', function () {
+            return new PhpEngine;
+        });
+
+        $viewFinder = new FileViewFinder($filesystem, $viewsDir);
+        $this->factory = new Factory($viewResolver, $viewFinder, $eventDispatcher);
     }
 
     function render($view, $variables = [])
